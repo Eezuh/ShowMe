@@ -31,11 +31,22 @@ public class CharacterScript : MonoBehaviour
 
     public GameObject Attack_Blast;
     public GameObject Attack_Stream;
+    public GameObject WaterDownPoint;
+    public GameObject WaterDownObject;
+    public float AttackStreamLength;
+
+    private bool InOutcropRange;
+    private GameObject CurrentOutcrop;
+    public float SuckSpeed;
 
     private void Start()
     {
         InitializeItemPosition();
         CurrentWaterFuelAmount = MaxWaterFuelAmount;
+        Attack_Stream.SetActive(false);
+        WaterDownObject.SetActive(false);
+        InOutcropRange = false;
+        RaftFuelHolding = 0;
     }
 
     private void Update()
@@ -52,7 +63,6 @@ public class CharacterScript : MonoBehaviour
         {
             if (Time.time >= HoldStartTime + StreamDelay)
             {
-                AttackIsStream = true;
                 FireStream();
                 Debug.Log("Stream Attack");
             }
@@ -65,6 +75,8 @@ public class CharacterScript : MonoBehaviour
                 FireShortBlast();
                 Debug.Log("shortblast");
             }
+            Attack_Stream.SetActive(false);
+            WaterDownObject.SetActive(false);
             AttackIsStream = false;
         }
 
@@ -77,8 +89,7 @@ public class CharacterScript : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            //zuckk
-            Debug.Log("sucking");
+            SuckMineralFuel();
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
@@ -87,24 +98,55 @@ public class CharacterScript : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 6)
+        {
+            Debug.Log("triggerenter");
+            InOutcropRange = true;
+            CurrentOutcrop = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) //see if this works with edstroying the object
+    {
+        if (other.gameObject.layer == 6)
+        {
+            if (CurrentOutcrop.GetComponent<OutcropScript>().FuelInOutcrop <= 0)
+            {
+                CurrentOutcrop.GetComponent<OutcropScript>().Despawn();
+            }
+            Debug.Log("triggerexit");
+            InOutcropRange = false;
+            CurrentOutcrop = null;
+        }
+    }
+
     private void FireShortBlast() //Dpesnt work yet :(((
     {
         //fire wit power based on available fuel;
         //lower fuel amount
 
-        GameObject Projectile = Instantiate(Attack_Blast, FirePoint.transform);
+        GameObject Projectile = Instantiate(Attack_Blast, FirePoint.transform.position, FirePoint.transform.rotation);
         Projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, MaxBlastAttackVelocity*WaterFuelPercentage));
+        Debug.Log("Instantiate");
         CurrentWaterFuelAmount -= ShortBlastCost;
 
     }
 
     private void FireStream()
     {
-        Attack_Stream.transform.localScale =  new Vector3(0, Attack_Stream.transform.localScale.y);
-        GameObject Projectile = Instantiate(Attack_Stream, FirePoint.transform);
+        if (AttackIsStream == false)
+        {
+            Attack_Stream.SetActive(true);
+            WaterDownObject.SetActive(true);
+            AttackIsStream = true;
+        }
+
+        Attack_Stream.transform.localScale =  new Vector3(0.2f, 0.2f, AttackStreamLength * WaterFuelPercentage);
+        WaterDownPoint.transform.localPosition = new Vector3(WaterDownPoint.transform.localPosition.x, WaterDownPoint.transform.localPosition.y, 245 * WaterFuelPercentage);
         CurrentWaterFuelAmount -= StreamAttackCostPerSecond;
-        //shoot stream every time function is called (once a second or so) and calculate distance based on fuel amount every time -> IENumerator probs
-        //lower fuel amount every time
+
     }
 
     private void InitializeItemPosition()
@@ -136,6 +178,18 @@ public class CharacterScript : MonoBehaviour
     private void CalculateWaterFuelPercentage()
     {
         WaterFuelPercentage = CurrentWaterFuelAmount / MaxWaterFuelAmount;
+    }
+
+    private void SuckMineralFuel()
+    {
+        if (CurrentOutcrop != null)
+        {
+            if (CurrentOutcrop.GetComponent<OutcropScript>().FuelInOutcrop > 0)
+            {
+                CurrentOutcrop.GetComponent<OutcropScript>().FuelInOutcrop -= SuckSpeed;
+                RaftFuelHolding += SuckSpeed;
+            }
+        }
     }
 }
 
