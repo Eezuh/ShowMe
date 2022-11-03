@@ -42,6 +42,8 @@ public class CharacterScript : MonoBehaviour
     private bool InCarbonatorRange;
     public float WaterFuelChargeAmount;
 
+    public GameObject PlayerCamera;
+
     private void Start()
     {
         InitializeItemPosition();
@@ -50,6 +52,8 @@ public class CharacterScript : MonoBehaviour
         WaterDownObject.SetActive(false);
         InOutcropRange = false;
         RaftFuelHolding = 0;
+
+        PlayerGun.transform.SetParent(PlayerCamera.transform, true);
     }
 
     private void Update()
@@ -183,19 +187,27 @@ public class CharacterScript : MonoBehaviour
 
     private void SwitchItems()
     {
-        if(PlayerGun.transform.position == OnHandPos.transform.position)
+        if(PlayerGun.transform.parent == PlayerCamera.transform)
         {
+            PlayerGun.transform.SetParent(transform, true);
+
             PlayerGun.transform.position = OffHandPos.transform.position;
             MineralVacuum.transform.position = OnHandPos.transform.position;
             PlayerGun.transform.rotation = OffHandPos.transform.rotation;
-            MineralVacuum.transform.rotation = OnHandPos.transform.rotation;
+            MineralVacuum.transform.rotation = PlayerCamera.transform.rotation; ;
+
+            MineralVacuum.transform.SetParent(PlayerCamera.transform, true);
         }
         else
         {
+            MineralVacuum.transform.SetParent(transform, true);
+
             PlayerGun.transform.position = OnHandPos.transform.position;
             MineralVacuum.transform.position = OffHandPos.transform.position;
-            PlayerGun.transform.rotation = OnHandPos.transform.rotation;
+            PlayerGun.transform.rotation = PlayerCamera.transform.rotation;
             MineralVacuum.transform.rotation = OffHandPos.transform.rotation;
+
+            PlayerGun.transform.SetParent(PlayerCamera.transform, true);
         }
     }
 
