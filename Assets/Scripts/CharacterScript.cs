@@ -39,6 +39,9 @@ public class CharacterScript : MonoBehaviour
     private GameObject CurrentOutcrop;
     public float SuckSpeed;
 
+    private bool InCarbonatorRange;
+    public float WaterFuelChargeAmount;
+
     private void Start()
     {
         InitializeItemPosition();
@@ -82,29 +85,46 @@ public class CharacterScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            AttackIsStream = false;
-            SwitchItems();
-            //switch weapons
+            if (InCarbonatorRange == false)
+            {
+                AttackIsStream = false;
+                SwitchItems();
+            }
         }
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            SuckMineralFuel();
+            if (InCarbonatorRange == false)
+            {
+                SuckMineralFuel();
+            }
+            else
+            {
+                Carbonate();
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
-            SwitchItems();
+            if(InCarbonatorRange == false)
+            {
+                SwitchItems();
+            }
+            
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 6)
+        if (other.gameObject.layer == 6) //oitcrop
         {
             Debug.Log("triggerenter");
             InOutcropRange = true;
             CurrentOutcrop = other.gameObject;
+        }
+        else if (other.gameObject.layer == 7) //carbonator
+        {
+            InCarbonatorRange = true;
         }
     }
 
@@ -119,6 +139,10 @@ public class CharacterScript : MonoBehaviour
             Debug.Log("triggerexit");
             InOutcropRange = false;
             CurrentOutcrop = null;
+        }
+        else if (other.gameObject.layer == 7)
+        {
+            InCarbonatorRange = false;
         }
     }
 
@@ -190,6 +214,10 @@ public class CharacterScript : MonoBehaviour
                 RaftFuelHolding += SuckSpeed;
             }
         }
+    }
+    private void Carbonate()
+    {
+        CurrentWaterFuelAmount += WaterFuelChargeAmount;
     }
 }
 

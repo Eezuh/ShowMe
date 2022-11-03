@@ -60,7 +60,7 @@ public class RaftController : MonoBehaviour
     }
 
     //If the pathing breaks for whatever reason, it'll start at the first waypoint again
-    private void Update()
+    private void fixedUpdate()
     {
         if (_agent.isPathStale)
         {
