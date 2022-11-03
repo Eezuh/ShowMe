@@ -143,8 +143,8 @@ public class CharacterScript : MonoBehaviour
             AttackIsStream = true;
         }
 
-        Attack_Stream.transform.localScale =  new Vector3(0.2f, 0.2f, AttackStreamLength * WaterFuelPercentage);
-        WaterDownPoint.transform.localPosition = new Vector3(WaterDownPoint.transform.localPosition.x, WaterDownPoint.transform.localPosition.y, 245 * WaterFuelPercentage);
+        Attack_Stream.transform.localScale =  new Vector3(0.4f, 0.4f, AttackStreamLength * WaterFuelPercentage);
+        WaterDownPoint.transform.localPosition = new Vector3(WaterDownPoint.transform.localPosition.x, WaterDownPoint.transform.localPosition.y, 815 * WaterFuelPercentage);
         CurrentWaterFuelAmount -= StreamAttackCostPerSecond;
 
     }
