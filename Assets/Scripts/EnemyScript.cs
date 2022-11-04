@@ -11,6 +11,7 @@ public class EnemyScript : MonoBehaviour
     public GameObject EnemyGun;
     public Transform PlayerAimTarget;
     public float shootingVelocity;
+    public GameObject Enemy;
 
     public float HidingHeightAmount;
     private bool PlayerInRange;
@@ -18,37 +19,38 @@ public class EnemyScript : MonoBehaviour
     private void Start()
     {
         PlayerInRange = false; 
-        transform.Translate(new Vector3(0, HidingHeightAmount, 0));
+        Enemy.transform.Translate(new Vector3(0, HidingHeightAmount, 0));
+       
         StartCoroutine(ShootProjectile());
     }
     private void Update()
     {
-        if (PlayerAimTarget != null)
+        if (PlayerAimTarget != null && PlayerInRange == true)
         {
-            transform.LookAt(PlayerAimTarget);
+          Enemy.transform.LookAt(PlayerAimTarget);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 6)  //layer for player
+        if (other.gameObject.layer == 8)  //layer for player
         {
             PlayerInRange = true;
-            transform.Translate(new Vector3(0, -HidingHeightAmount, 0));
+            Enemy.transform.Translate(new Vector3(0, -HidingHeightAmount, 0));
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 6)  //layer for player
+        if (other.gameObject.layer == 8)  //layer for player
         {
             PlayerInRange = false;
-            transform.Translate(new Vector3(0, HidingHeightAmount, 0));
+            Enemy.transform.Translate(new Vector3(0, HidingHeightAmount, 0));
         }
     }
 
     private IEnumerator ShootProjectile() //shoots a projectile every 4 seconds
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
         if (PlayerInRange)
         {
             EnemyGun.GetComponent<EnemyGunScript>().Enemy_ShootProjectile();

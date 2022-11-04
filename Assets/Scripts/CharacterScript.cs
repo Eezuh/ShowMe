@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterScript : MonoBehaviour
 {
-    private float health;
+    public float health;
     public float MaxWaterFuelAmount;
     private float CurrentWaterFuelAmount;
     private float WaterFuelPercentage;

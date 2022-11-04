@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class EnemyProjectileScript : MonoBehaviour
 {
-    private void Awake()
+    public float damage;
+
+    private void OnTriggerEnter(Collider other)
     {
-       //Enemy projectile code
+        if(other.gameObject.layer == 8)
+        {
+            other.gameObject.GetComponent<CharacterScript>().health -= damage;
+        }
+
+        Destroy(this.gameObject);
     }
 }
