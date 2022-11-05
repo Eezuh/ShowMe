@@ -5,12 +5,13 @@ using UnityEngine;
 public class OutcropScript : MonoBehaviour
 {
     public float FuelInOutcrop;
+    public GameObject Mesh;
 
     private void Update()
     {
         if (FuelInOutcrop <= 0)
         {
-            this.gameObject.GetComponent<Renderer>().enabled = false;
+            Mesh.GetComponent<Renderer>().enabled = false;
         }
     }
 
