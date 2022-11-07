@@ -1007,7 +1007,7 @@
         "m_Position": {
             "serializedVersion": "2",
             "x": 738.0,
-            "y": -273.0,
+            "y": -276.0,
             "width": 98.0,
             "height": 34.0
         }
@@ -2049,7 +2049,7 @@
     "m_Value": 0.0,
     "m_FloatType": 1,
     "m_RangeValues": {
-        "x": -1.0,
+        "x": 0.0,
         "y": 1.0
     }
 }
