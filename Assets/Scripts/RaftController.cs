@@ -17,7 +17,8 @@ public class RaftController : MonoBehaviour
     public Action OnWaypointArrived;
 
     //fuel stuff: fuelRate is the amount drained, drainCooldown is the time it takes to drain again
-    public float fuel = 250f;
+    public float maxFuel = 250f;
+    public float fuel;
     public float fuelRate = 0.3f;
     public float drainCooldown = 0.5f;
 
@@ -34,6 +35,7 @@ public class RaftController : MonoBehaviour
     //SetFirstDestination is called to move the raft to the first Waypoint, after that it'll run on it's own
     void Start()
     {
+        fuel = maxFuel;
         if (waypointNetwork == null) return;
         SetFirstDestination();
         StartRaftEngine();
