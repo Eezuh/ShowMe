@@ -5,10 +5,12 @@ using UnityEngine;
 public class CharacterScript : MonoBehaviour
 {
     public float health;
+    public float maxHealth;
     public float MaxWaterFuelAmount;
-    private float CurrentWaterFuelAmount;
+    public float CurrentWaterFuelAmount;
     private float WaterFuelPercentage;
-    private float RaftFuelHolding;
+    public float MaxRaftFuelHolding;
+    public float RaftFuelHolding;
 
     public GameObject PlayerGun;
     public GameObject FirePoint;
@@ -46,6 +48,7 @@ public class CharacterScript : MonoBehaviour
 
     private void Start()
     {
+        health = maxHealth;
         InitializeItemPosition();
         CurrentWaterFuelAmount = MaxWaterFuelAmount;
         Attack_Stream.SetActive(false);
