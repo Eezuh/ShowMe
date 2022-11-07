@@ -7994,13 +7994,13 @@ Transform:
   - {fileID: 1849541061}
   - {fileID: 1688317679}
   - {fileID: 684753957}
-  - {fileID: 861635742}
-  - {fileID: 338363075}
-  - {fileID: 2094983385}
-  - {fileID: 98264306}
   - {fileID: 480639010}
+  - {fileID: 861635742}
+  - {fileID: 98264306}
+  - {fileID: 338363075}
   - {fileID: 1839365366}
   - {fileID: 586899683}
+  - {fileID: 2094983385}
   - {fileID: 868573837}
   - {fileID: 1388385243}
   - {fileID: 1323311476}
@@ -30361,7 +30361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5813888095661538145, guid: cb8aa04516149754ba96daf9f26cdea3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.33
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 5813888095661538145, guid: cb8aa04516149754ba96daf9f26cdea3, type: 3}
       propertyPath: m_LocalPosition.z
