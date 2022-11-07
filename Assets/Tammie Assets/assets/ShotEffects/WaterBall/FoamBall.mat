@@ -80,13 +80,13 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Intensity: 1.617
+    - _Intensity: 1.317
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseSize: 0.408
+    - _NoiseSize: 0.905
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Size: 0.241
+    - _Size: -0.069
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

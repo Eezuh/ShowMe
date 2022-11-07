@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Water
-  m_Shader: {fileID: -6465566751694194690, guid: 7c73c7eae601d584782aff57e9e654dc, type: 3}
+  m_Shader: {fileID: 4800000, guid: 048181f39f531804e9434315dd4047b3, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -107,23 +107,23 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _Flowspeed: 2.16
-    - _Flowspeed1: 1.93
-    - _Flowspeed2: 1.38
-    - _FoamDist: 1
+    - _Flowspeed1: 2.02
+    - _Flowspeed2: 0.48
+    - _FoamDist: 1.26
     - _FoamGrainSize: 44.21
     - _FoamScale: 30
     - _Foamspeed: 0.33
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HighlightWavesIntentisy: 0.116
+    - _HighlightWavesIntentisy: 0.3
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ReflectionSize: 1
+    - _ReflectionSize: 1.1
     - _ScaleAll: 1.74
     - _Size: -1.2
     - _Smoothness: 0.5
@@ -132,9 +132,9 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _WaterAlpha: 0.444
-    - _WaterBrightness: 0.264
-    - _WaterOpacity: 0.136
-    - _WaterSaturation: 1.377
+    - _WaterBrightness: 0.184
+    - _WaterOpacity: 0.551
+    - _WaterSaturation: 0.626
     - _WavesFrequency: 12.2
     - _WavesIntensity: 1.34
     - _WorkflowMode: 1
@@ -147,7 +147,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WaterColor: {r: 0.54668033, g: 0.990566, b: 0.9595515, a: 0}
+    - _WaterColor: {r: 0.4485582, g: 0.9056604, b: 0.8748939, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4909886772807994127
 MonoBehaviour:
