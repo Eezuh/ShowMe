@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Water
-  m_Shader: {fileID: -6465566751694194690, guid: 7c73c7eae601d584782aff57e9e654dc, type: 3}
+  m_Shader: {fileID: 4800000, guid: 715c6beecc3becd4f89f9b92dc9ea26c, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
