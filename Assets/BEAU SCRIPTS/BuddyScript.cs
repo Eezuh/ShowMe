@@ -5,11 +5,13 @@ using UnityEngine.AI;
 
 public class BuddyScript : MonoBehaviour
 {
+    private Animator animator;
     private NavMeshAgent agent;
     public GameObject player;
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         if(player == null)
         {
@@ -21,5 +23,13 @@ public class BuddyScript : MonoBehaviour
     void FixedUpdate()
     {
         agent.SetDestination(player.transform.position);
+        if(agent.velocity.magnitude > 0)
+        {
+            animator.SetBool("ismoving", true);
+        }
+        else
+        {
+            animator.SetBool("ismoving", false);
+        }
     }
 }
