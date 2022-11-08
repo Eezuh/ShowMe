@@ -10,10 +10,14 @@ public class RotateScript : MonoBehaviour
     private bool rotateBack;
     public float rotateSpeed;
 
+    private Vector3 from = new Vector3(0, 0, 0);
+    private Vector3 to = new Vector3(0, 0, 0);
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        from.y = rotateStart;
+        to.y = rotateEnd;
     }
 
     // Update is called once per frame
@@ -21,25 +25,15 @@ public class RotateScript : MonoBehaviour
     {
         if (rotateRestricted)
         {
-            DoFixedRotation(Time.fixedDeltaTime);
+            Quaternion from = Quaternion.Euler(this.from);
+            Quaternion to = Quaternion.Euler(this.to);
+
+            float lerp = 0.5F * (1.0F + Mathf.Sin(Mathf.PI * Time.realtimeSinceStartup * rotateSpeed / 10));
+            transform.localRotation = Quaternion.Lerp(from, to, lerp);
         }
         else
         {
             transform.Rotate(new Vector3(0, 1, 0) * rotateSpeed * Time.fixedDeltaTime);
         }
-    }
-
-    private void DoFixedRotation(float time)
-    {
-        if(transform.rotation.eulerAngles.y > rotateEnd && transform.rotation.y > rotateStart)
-        {
-            rotateBack = true;
-        }
-        else if(transform.rotation.y < rotateStart)
-        {
-            rotateBack = false;
-        }
-
-        transform.Rotate(new Vector3(0, 1, 0) * ((rotateBack) ? -rotateSpeed : rotateSpeed) * time);
     }
 }
