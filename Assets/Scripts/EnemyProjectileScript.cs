@@ -11,8 +11,10 @@ public class EnemyProjectileScript : MonoBehaviour
         if(other.gameObject.layer == 8)
         {
             other.gameObject.GetComponent<CharacterScript>().health -= damage;
+            Debug.Log("dababy");
+            Destroy(this.gameObject);
         }
 
-        Destroy(this.gameObject);
+       
     }
 }

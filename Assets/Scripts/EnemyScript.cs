@@ -69,7 +69,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private IEnumerator ShootProjectile() //shoots a projectile every 4 seconds
+    private IEnumerator ShootProjectile() //shoots a projectile every 2 seconds
     {
         yield return new WaitForSeconds(2f);
         if (PlayerInRange)

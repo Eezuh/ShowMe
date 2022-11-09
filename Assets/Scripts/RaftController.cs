@@ -19,11 +19,13 @@ public class RaftController : MonoBehaviour
     //fuel stuff: fuelRate is the amount drained, drainCooldown is the time it takes to drain again
     public float maxFuel = 250f;
     public float fuel;
-    public float fuelRate = 0.3f;
+    public float fuelRate = 0.75f;
     public float drainCooldown = 0.5f;
 
     //Stores the StartRaft coroutine to make sure it gets stopped
     private Coroutine StartRaftCoroutine;
+
+    private bool outOfFuel;
 
     //Gets the navmesh agent
     private void Awake()
@@ -40,6 +42,22 @@ public class RaftController : MonoBehaviour
         SetFirstDestination();
         StartRaftEngine();
         OnWaypointArrived += SetNextDestination;
+    }
+
+    private void Update()
+    {
+        /*
+        if (fuel <= 0 && outOfFuel == false)
+        {
+            fuel = 0;
+            StopRaftEngine();
+            outOfFuel = true;
+        }
+        if (fuel >= 0 && outOfFuel == true)
+        {
+            StartRaftEngine()
+        }
+        */
     }
 
     //Can call this from another script to add fuel based on fuel on the player

@@ -11,6 +11,7 @@ public class CharacterScript : MonoBehaviour
     private float WaterFuelPercentage;
     public float MaxRaftFuelHolding;
     public float RaftFuelHolding;
+    public float RaftFuelDepositSpeed;
 
     public GameObject PlayerGun;
     public GameObject FirePoint;
@@ -46,6 +47,8 @@ public class CharacterScript : MonoBehaviour
 
     public GameObject PlayerCamera;
 
+    public GameObject Raft;
+
     private void Start()
     {
         health = maxHealth;
@@ -66,15 +69,25 @@ public class CharacterScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            HoldStartTime = Time.time;
+            if(InCarbonatorRange == false)
+            {
+                HoldStartTime = Time.time;
+            }    
         }
 
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            if (Time.time >= HoldStartTime + StreamDelay)
+            if (InCarbonatorRange == false)
             {
-                FireStream();
-                Debug.Log("Stream Attack");
+                if (Time.time >= HoldStartTime + StreamDelay)
+                {
+                    FireStream();
+                    Debug.Log("Stream Attack");
+                }
+            }
+            else
+            {
+                Carbonate();
             }
         }
 
@@ -107,7 +120,7 @@ public class CharacterScript : MonoBehaviour
             }
             else
             {
-                Carbonate();
+                DepositRaftFuel();
             }
         }
 
@@ -232,7 +245,27 @@ public class CharacterScript : MonoBehaviour
     }
     private void Carbonate()
     {
-        CurrentWaterFuelAmount += WaterFuelChargeAmount;
+        if (CurrentWaterFuelAmount <= MaxWaterFuelAmount)
+        {
+            CurrentWaterFuelAmount += WaterFuelChargeAmount;
+        }
+        else
+        {
+            CurrentWaterFuelAmount = MaxWaterFuelAmount;
+        }   
+    }
+
+    private void DepositRaftFuel()
+    {
+        if (RaftFuelHolding > 0 && Raft.GetComponent<RaftController>().fuel <= Raft.GetComponent<RaftController>().maxFuel)
+        {
+            Raft.GetComponent<RaftController>().AddFuel(RaftFuelDepositSpeed);
+            RaftFuelHolding -= 2*RaftFuelDepositSpeed;
+        }
+        else
+        {
+
+        }
     }
 }
 
