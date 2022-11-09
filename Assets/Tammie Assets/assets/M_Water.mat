@@ -110,13 +110,13 @@ Material:
     - _Flowspeed1: 1.93
     - _Flowspeed2: 1.38
     - _FoamDist: 1
-    - _FoamGrainSize: 44.21
+    - _FoamGrainSize: 30.1
     - _FoamScale: 30
-    - _Foamspeed: 0.33
+    - _Foamspeed: -1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HighlightWavesIntentisy: 0.099
+    - _HighlightWavesIntentisy: 0.066
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -124,7 +124,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ReflectionSize: 1
-    - _ScaleAll: 5
+    - _ScaleAll: 23.5
     - _Size: -1.2
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -132,8 +132,8 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _WaterAlpha: 0.444
-    - _WaterBrightness: 0.264
-    - _WaterOpacity: 0.136
+    - _WaterBrightness: 0.1
+    - _WaterOpacity: 0.103
     - _WaterSaturation: 1.377
     - _WavesFrequency: 0
     - _WavesIntensity: 0
