@@ -10,8 +10,8 @@ public class MainMenuManager : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void LoadMainScene()
+    public void LoadTutorialScene()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("TutorialScene");
     }
 }

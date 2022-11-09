@@ -1715,7 +1715,7 @@ Terrain:
   m_GameObject: {fileID: 39263225}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: d34e3218e9745d44887635a5e0bd53eb, type: 2}
+  m_TerrainData: {fileID: 0}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -49357,7 +49357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fbbe59d65c8b44295bbd3ffb8d2424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PuppetHealth: 0
+  PuppetHealth: 100
 --- !u!54 &1701348540
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -64244,6 +64244,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 414112374}
     - target: {fileID: 8611890305493566314, guid: 8c8d47f34c8099446b2e9cbabda14f59, type: 3}
+      propertyPath: Enemy
+      value: 
+      objectReference: {fileID: 8611890304489494138}
+    - target: {fileID: 8611890305493566314, guid: 8c8d47f34c8099446b2e9cbabda14f59, type: 3}
+      propertyPath: EnemyProjectile
+      value: 
+      objectReference: {fileID: 6192673585850374657, guid: 6689f231ca1d0df4abc3708a1e6eb970, type: 3}
+    - target: {fileID: 8611890305493566314, guid: 8c8d47f34c8099446b2e9cbabda14f59, type: 3}
       propertyPath: PlayerAimTarget
       value: 
       objectReference: {fileID: 414112374}
@@ -64260,6 +64268,11 @@ PrefabInstance:
 --- !u!4 &8611890304489494137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8073034279467487243, guid: 8c8d47f34c8099446b2e9cbabda14f59, type: 3}
+  m_PrefabInstance: {fileID: 8611890304489494136}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8611890304489494138 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8611890304710000720, guid: 8c8d47f34c8099446b2e9cbabda14f59, type: 3}
   m_PrefabInstance: {fileID: 8611890304489494136}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8616685849374744704
@@ -64541,7 +64554,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8762286024298273977}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.651039, y: -18.397095, z: -221.17801}
+  m_LocalPosition: {x: -14.651039, y: -16.155, z: -212.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -64645,7 +64658,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8616685849374744704}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.651039, y: -19.772095, z: -221.17801}
+  m_LocalPosition: {x: -14.651039, y: -17.53, z: -212.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

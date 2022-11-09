@@ -18,6 +18,7 @@ public class EnemyGunScript : MonoBehaviour
     }
     public void Enemy_ShootProjectile()
     {
+        Debug.Log("Biem");
         GameObject Projectile = Instantiate(EnemyProjectile, ShootingPoint.transform);
         Projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, Enemy.GetComponent<EnemyScript>().shootingVelocity));
     }
