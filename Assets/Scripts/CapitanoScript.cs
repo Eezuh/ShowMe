@@ -19,8 +19,11 @@ public class CapitanoScript : MonoBehaviour
     public Image healthImage;
     public AudioClip dieClip;
 
+    public GameObject HealthBarObject;
+
     private void Start()
     {
+        HealthBarObject.SetActive(false);
         PlayerInRange = false;
         Enemy.GetComponent<CapitanoHittableScript>().CaptainHealth = EnemyHealth;
 
@@ -48,6 +51,7 @@ public class CapitanoScript : MonoBehaviour
         if (other.gameObject.layer == 8)  //layer for player
         {
             PlayerInRange = true;
+            HealthBarObject.SetActive(true);
             GetComponent<AudioSource>().Play();
             
         }
@@ -64,6 +68,7 @@ public class CapitanoScript : MonoBehaviour
         if (other.gameObject.layer == 8)  //layer for player
         {
             PlayerInRange = false;
+            HealthBarObject.SetActive(false);
             GetComponent<AudioSource>().Play();
         }
     }
