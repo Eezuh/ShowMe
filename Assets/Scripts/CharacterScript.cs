@@ -54,9 +54,11 @@ public class CharacterScript : MonoBehaviour
     public AudioClip vacuumClip;
     public AudioClip damageClip;
     public AudioSource source;
+    private bool cursorVisible;
 
     private void Start()
     {
+        cursorVisible = false;
         health = maxHealth;
         source = GetComponent<AudioSource>();
         InitializeItemPosition();
@@ -103,12 +105,12 @@ public class CharacterScript : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && currentGun == PlayerGun)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && currentGun == PlayerGun && cursorVisible == false)
         {
             FireShortBlast();
         }
 
-        if (Input.GetKey(KeyCode.Mouse1) && currentGun == MineralVacuum)
+        if (Input.GetKey(KeyCode.Mouse1) && currentGun == MineralVacuum && cursorVisible == false)
         {
             if (!source.isPlaying)
             {
@@ -129,6 +131,23 @@ public class CharacterScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
            SwitchItems(); 
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            if(cursorVisible == false)
+            {
+                cursorVisible = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                cursorVisible = false;
+                Cursor.visible = false;
+            }
         }
 
         if (health <= 0)
