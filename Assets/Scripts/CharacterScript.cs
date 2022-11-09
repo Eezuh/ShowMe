@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class CharacterScript : MonoBehaviour
@@ -128,6 +129,11 @@ public class CharacterScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
            SwitchItems(); 
+        }
+
+        if (health <= 0)
+        {
+            SceneManager.LoadScene("BeauScene"); 
         }
 
         UpdateUI();

@@ -7,6 +7,6 @@ public class TutSceneManager : MonoBehaviour
 {
     public void LoadMainScene()
     {
-        SceneManager.LoadScene("FINALSCENE");
+        SceneManager.LoadScene("BeauScene");
     }
 }

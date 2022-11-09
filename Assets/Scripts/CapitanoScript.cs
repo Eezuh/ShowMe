@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 //For some reason, the player 'pushes' the enemy away if they enter the sphere collider slowly, but when they enter it quickly, everything works fine
@@ -42,6 +43,7 @@ public class CapitanoScript : MonoBehaviour
 
         if (Enemy.GetComponent<CapitanoHittableScript>().CaptainHealth <= 0)
         {
+            StartCoroutine(Die());
             dead = true;
         }
     }
@@ -78,6 +80,8 @@ public class CapitanoScript : MonoBehaviour
         GetComponent<AudioSource>().clip = dieClip;
         GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2f);
-        Destroy(Enemy);
+        //Destroy(Enemy);
+        SceneManager.LoadScene("EndScene");
+
     }
 }
