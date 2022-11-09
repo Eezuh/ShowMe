@@ -12,6 +12,11 @@ public class PlayerProjectile : MonoBehaviour
             GetComponent<AudioSource>().Play();
             collision.gameObject.GetComponent<PuppetScript>().PuppetHealth -= damage;
         }
+        if (collision.gameObject.layer == 12)
+        {
+            GetComponent<AudioSource>().Play();
+            collision.gameObject.GetComponent<CapitanoHittableScript>().CaptainHealth -= damage;
+        }
         Destroy(this.gameObject);
     }
 }
