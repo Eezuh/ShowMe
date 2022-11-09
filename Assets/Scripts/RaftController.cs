@@ -26,6 +26,7 @@ public class RaftController : MonoBehaviour
     private Coroutine StartRaftCoroutine;
 
     private bool outOfFuel;
+    public bool isStopped = false;
 
     //Gets the navmesh agent
     private void Awake()
@@ -71,12 +72,15 @@ public class RaftController : MonoBehaviour
     {
         StopCoroutine(StartRaftCoroutine);
         _agent.isStopped = true;
+        isStopped = true;
     }
 
     //Starts the coroutine to drain fuel until there's none left, then stops the raft from moving
     public void StartRaftEngine()
     {
         StartRaftCoroutine = StartCoroutine(DrainFuel());
+        _agent.isStopped = false;
+        isStopped = false;
     }
 
     //If the pathing breaks for whatever reason, it'll start at the first waypoint again

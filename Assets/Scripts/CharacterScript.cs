@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class CharacterScript : MonoBehaviour
 {
@@ -8,7 +10,6 @@ public class CharacterScript : MonoBehaviour
     public float maxHealth;
     public float MaxWaterFuelAmount;
     public float CurrentWaterFuelAmount;
-    private float WaterFuelPercentage;
     public float MaxRaftFuelHolding;
     public float RaftFuelHolding;
     public float RaftFuelDepositSpeed;
@@ -17,26 +18,18 @@ public class CharacterScript : MonoBehaviour
     public GameObject FirePoint;
     public GameObject MineralVacuum;
 
+    private GameObject currentGun;
+
     public GameObject OnHandPos;
     public GameObject OffHandPos;
 
     public float ShortBlastDamage;
-    public float StreamDamagePerSecond;
 
     public float ShortBlastCost;
-    public float StreamAttackCostPerSecond;
 
     public float MaxBlastAttackVelocity;
 
-    private float HoldStartTime;
-    public float StreamDelay;
-    private bool AttackIsStream;
-
     public GameObject Attack_Blast;
-    public GameObject Attack_Stream;
-    public GameObject WaterDownPoint;
-    public GameObject WaterDownObject;
-    public float AttackStreamLength;
 
     private bool InOutcropRange;
     private GameObject CurrentOutcrop;
@@ -45,106 +38,125 @@ public class CharacterScript : MonoBehaviour
     private bool InCarbonatorRange;
     public float WaterFuelChargeAmount;
 
+    private bool InRefuelRange;
+
     public GameObject PlayerCamera;
 
     public GameObject Raft;
 
+    public Image healthImage;
+    public Image vacuumImage;
+    public Image gunImage;
+    public Image raftImage;
+    public TMP_Text interactText;
+
+    public AudioClip vacuumClip;
+    public AudioClip damageClip;
+    public AudioSource source;
+
     private void Start()
     {
         health = maxHealth;
+        source = GetComponent<AudioSource>();
         InitializeItemPosition();
         CurrentWaterFuelAmount = MaxWaterFuelAmount;
-        Attack_Stream.SetActive(false);
-        WaterDownObject.SetActive(false);
         InOutcropRange = false;
         RaftFuelHolding = 0;
-
+        Raft = FindObjectOfType<RaftController>().gameObject;
         PlayerGun.transform.SetParent(PlayerCamera.transform, true);
+        currentGun = PlayerGun;
+        SetUI();
+    }
+
+    private void SetUI()
+    {
+        if(healthImage == null)
+        {
+            healthImage = GameObject.Find("PlayerHealth").GetComponent<Image>();
+        }
+        if (vacuumImage == null)
+        {
+            vacuumImage = GameObject.Find("VacuumFill").GetComponent<Image>();
+        }
+        if (gunImage == null)
+        {
+            gunImage = GameObject.Find("GunFill").GetComponent<Image>();
+        }
+        if (raftImage == null)
+        {
+            raftImage = GameObject.Find("RaftFill").GetComponent<Image>();
+        }
+        if (interactText == null)
+        {
+            interactText = GameObject.Find("InteractTex").GetComponent<TMP_Text>();
+        }
     }
 
     private void Update()
     {
-        CalculateWaterFuelPercentage();
-        Debug.Log(WaterFuelPercentage);
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.R) && currentGun == PlayerGun)
         {
-            if(InCarbonatorRange == false)
-            {
-                HoldStartTime = Time.time;
-            }    
-        }
-
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            if (InCarbonatorRange == false)
-            {
-                if (Time.time >= HoldStartTime + StreamDelay)
-                {
-                    FireStream();
-                    Debug.Log("Stream Attack");
-                }
-            }
-            else
-            {
+            if (InCarbonatorRange) 
+            { 
                 Carbonate();
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && currentGun == PlayerGun)
         {
-            if (AttackIsStream == false)
-            {
-                FireShortBlast();
-                Debug.Log("shortblast");
-            }
-            Attack_Stream.SetActive(false);
-            WaterDownObject.SetActive(false);
-            AttackIsStream = false;
+            FireShortBlast();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKey(KeyCode.Mouse1) && currentGun == MineralVacuum)
         {
-            if (InCarbonatorRange == false)
+            if (!source.isPlaying)
             {
-                AttackIsStream = false;
-                SwitchItems();
+                source.clip = vacuumClip;
+                source.Play();
             }
+            SuckMineralFuel();
         }
 
-        if (Input.GetKey(KeyCode.Mouse1))
+        if (Input.GetKey(KeyCode.E))
         {
-            if (InCarbonatorRange == false)
-            {
-                SuckMineralFuel();
-            }
-            else
+            if (InRefuelRange)
             {
                 DepositRaftFuel();
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            if(InCarbonatorRange == false)
-            {
-                SwitchItems();
-            }
-            
+           SwitchItems(); 
         }
+
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        healthImage.fillAmount = health / maxHealth;
+        vacuumImage.fillAmount = RaftFuelHolding / MaxRaftFuelHolding;
+        gunImage.fillAmount = CurrentWaterFuelAmount / MaxWaterFuelAmount;
+        raftImage.fillAmount = Raft.GetComponent<RaftController>().fuel / Raft.GetComponent<RaftController>().maxFuel;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6) //oitcrop
         {
-            Debug.Log("triggerenter");
             InOutcropRange = true;
             CurrentOutcrop = other.gameObject;
+            interactText.text = "Hold RMB while holding the mineral collector to collect the crop!";
         }
         else if (other.gameObject.layer == 7) //carbonator
         {
             InCarbonatorRange = true;
+            interactText.text = "Hold R while holding your gun to carbonate your ammo!";
+        }else if(other.gameObject.layer == 10) //refuel
+        {
+            InRefuelRange = true;
+            interactText.text = "Hold E to refuel the raft!";
         }
     }
 
@@ -156,41 +168,27 @@ public class CharacterScript : MonoBehaviour
             {
                 CurrentOutcrop.GetComponent<OutcropScript>().Despawn();
             }
-            Debug.Log("triggerexit");
             InOutcropRange = false;
             CurrentOutcrop = null;
         }
         else if (other.gameObject.layer == 7)
         {
             InCarbonatorRange = false;
-        }
-    }
-
-    private void FireShortBlast() //Dpesnt work yet :(((
-    {
-        //fire wit power based on available fuel;
-        //lower fuel amount
-
-        GameObject Projectile = Instantiate(Attack_Blast, FirePoint.transform.position, FirePoint.transform.rotation);
-        Projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, MaxBlastAttackVelocity*WaterFuelPercentage));
-        Debug.Log("Instantiate");
-        CurrentWaterFuelAmount -= ShortBlastCost;
-
-    }
-
-    private void FireStream()
-    {
-        if (AttackIsStream == false)
+        }else if(other.gameObject.layer == 10)
         {
-            Attack_Stream.SetActive(true);
-            WaterDownObject.SetActive(true);
-            AttackIsStream = true;
+            InRefuelRange = false;
         }
+        interactText.text = "";
+    }
 
-        Attack_Stream.transform.localScale =  new Vector3(0.4f, 0.4f, AttackStreamLength * WaterFuelPercentage);
-        WaterDownPoint.transform.localPosition = new Vector3(WaterDownPoint.transform.localPosition.x, WaterDownPoint.transform.localPosition.y, 815 * WaterFuelPercentage);
-        CurrentWaterFuelAmount -= StreamAttackCostPerSecond;
-
+    private void FireShortBlast()
+    {
+        if(!((CurrentWaterFuelAmount - ShortBlastCost) < 0))
+        {
+            GameObject Projectile = Instantiate(Attack_Blast, FirePoint.transform.position, FirePoint.transform.rotation);
+            Projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, MaxBlastAttackVelocity));
+            CurrentWaterFuelAmount -= ShortBlastCost;
+        }
     }
 
     private void InitializeItemPosition()
@@ -206,7 +204,7 @@ public class CharacterScript : MonoBehaviour
         if(PlayerGun.transform.parent == PlayerCamera.transform)
         {
             PlayerGun.transform.SetParent(transform, true);
-
+            currentGun = MineralVacuum;
             PlayerGun.transform.position = OffHandPos.transform.position;
             MineralVacuum.transform.position = OnHandPos.transform.position;
             PlayerGun.transform.rotation = OffHandPos.transform.rotation;
@@ -217,7 +215,7 @@ public class CharacterScript : MonoBehaviour
         else
         {
             MineralVacuum.transform.SetParent(transform, true);
-
+            currentGun = PlayerGun;
             PlayerGun.transform.position = OnHandPos.transform.position;
             MineralVacuum.transform.position = OffHandPos.transform.position;
             PlayerGun.transform.rotation = PlayerCamera.transform.rotation;
@@ -225,11 +223,6 @@ public class CharacterScript : MonoBehaviour
 
             PlayerGun.transform.SetParent(PlayerCamera.transform, true);
         }
-    }
-
-    private void CalculateWaterFuelPercentage()
-    {
-        WaterFuelPercentage = CurrentWaterFuelAmount / MaxWaterFuelAmount;
     }
 
     private void SuckMineralFuel()
@@ -243,6 +236,7 @@ public class CharacterScript : MonoBehaviour
             }
         }
     }
+
     private void Carbonate()
     {
         if (CurrentWaterFuelAmount <= MaxWaterFuelAmount)
@@ -257,8 +251,10 @@ public class CharacterScript : MonoBehaviour
 
     private void DepositRaftFuel()
     {
-        if (RaftFuelHolding > 0 && Raft.GetComponent<RaftController>().fuel <= Raft.GetComponent<RaftController>().maxFuel)
+        Debug.Log("Attempting to refuel...");
+        if (RaftFuelHolding > 0 && (Raft.GetComponent<RaftController>().fuel + RaftFuelDepositSpeed) <= Raft.GetComponent<RaftController>().maxFuel)
         {
+            Debug.Log($"refueling with {RaftFuelHolding} stored...");
             Raft.GetComponent<RaftController>().AddFuel(RaftFuelDepositSpeed);
             RaftFuelHolding -= 2*RaftFuelDepositSpeed;
         }

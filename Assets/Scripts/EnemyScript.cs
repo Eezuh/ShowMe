@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 
 //For some reason, the player 'pushes' the enemy away if they enter the sphere collider slowly, but when they enter it quickly, everything works fine
@@ -21,23 +21,29 @@ public class EnemyScript : MonoBehaviour
     public GameObject Puppet;
     private bool dead;
 
+    public Image healthImage;
+    public AudioClip dieClip;
+
     private void Start()
     {
-        PlayerInRange = false; 
+        PlayerInRange = false;
         //Enemy.transform.Translate(new Vector3(0, HidingHeightAmount, 0));
-       
+
         StartCoroutine(ShootProjectile());
         TentacleAnimator = Enemy.GetComponent<Animator>();
         Puppet.GetComponent<PuppetScript>().PuppetHealth = EnemyHealth;
         dead = false;
     }
+
     private void Update()
     {
         if (PlayerAimTarget != null && PlayerInRange == true)
         {
-          Enemy.transform.LookAt(PlayerAimTarget);
-          Enemy.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            Enemy.transform.LookAt(PlayerAimTarget);
+            Enemy.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
+
+        healthImage.fillAmount = Puppet.GetComponent<PuppetScript>().PuppetHealth / EnemyHealth;
 
         if (Puppet.GetComponent<PuppetScript>().PuppetHealth <= 0)
         {
@@ -46,6 +52,11 @@ public class EnemyScript : MonoBehaviour
                 TentacleAnimator.SetTrigger("Hide");
                 StartCoroutine(Die());
                 dead = true;
+                RaftController raftCtrl = FindObjectOfType<RaftController>();
+                if (raftCtrl.isStopped)
+                {
+                    raftCtrl.StartRaftEngine();
+                }
             }
         }
     }
@@ -56,7 +67,14 @@ public class EnemyScript : MonoBehaviour
         {
             PlayerInRange = true;
             TentacleAnimator.SetTrigger("Emerge");
+            GetComponent<AudioSource>().Play();
             //Enemy.transform.Translate(new Vector3(0, -HidingHeightAmount, 0));
+        }else if (other.gameObject.layer == 11)
+        {
+            if (!other.GetComponent<RaftController>().isStopped)
+            {
+                other.GetComponent<RaftController>().StopRaftEngine();
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -64,6 +82,7 @@ public class EnemyScript : MonoBehaviour
         if (other.gameObject.layer == 8)  //layer for player
         {
             PlayerInRange = false;
+            GetComponent<AudioSource>().Play();
             TentacleAnimator.SetTrigger("Hide");
             //Enemy.transform.Translate(new Vector3(0, HidingHeightAmount, 0));
         }
@@ -71,8 +90,8 @@ public class EnemyScript : MonoBehaviour
 
     private IEnumerator ShootProjectile() //shoots a projectile every 2 seconds
     {
-        yield return new WaitForSeconds(2f);
-        if (PlayerInRange)
+        yield return new WaitForSeconds(1f);
+        if (PlayerInRange && !dead)
         {
             EnemyGun.GetComponent<EnemyGunScript>().Enemy_ShootProjectile();
         }
@@ -81,6 +100,8 @@ public class EnemyScript : MonoBehaviour
 
     private IEnumerator Die()
     {
+        GetComponent<AudioSource>().clip = dieClip;
+        GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2f);
         Destroy(Enemy);
     }

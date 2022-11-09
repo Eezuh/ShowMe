@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 4280958658297307162}
   - component: {fileID: 8991373620104431188}
   - component: {fileID: 8842872382986385884}
+  - component: {fileID: 8233036133169425766}
   m_Layer: 0
   m_Name: cavewallretopo2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4280958658297307162
 Transform:
@@ -49,7 +50,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3070956748478712790}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 2
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8233036133169425766
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3070956748478712790}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8066376421194569412, guid: 90c29d94bdb866c49b7a31d350f7fdb9, type: 3}
 --- !u!1 &5910645316097902646
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,9 +121,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5910645316097902646}
-  m_LocalRotation: {x: -0, y: 0.9994488, z: -0, w: 0.033198245}
+  m_LocalRotation: {x: 0, y: 0.99944884, z: 0, w: 0.033198815}
   m_LocalPosition: {x: -7.475685, y: -0.9299998, z: -59.424034}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.7911723, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4280958658297307162}

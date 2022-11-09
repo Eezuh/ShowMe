@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyGunScript : MonoBehaviour
 {
     public GameObject Enemy;
+    public EnemyScript EnemyScript;
     public GameObject EnemyProjectile;
     public GameObject ShootingPoint;
     public Transform PlayerAimTarget;
@@ -18,8 +19,8 @@ public class EnemyGunScript : MonoBehaviour
     }
     public void Enemy_ShootProjectile()
     {
-        Debug.Log("Biem");
-        GameObject Projectile = Instantiate(EnemyProjectile, this.transform);
-        Projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, Enemy.GetComponent<EnemyScript>().shootingVelocity));
+        GetComponent<AudioSource>().Play();
+        GameObject Projectile = Instantiate(EnemyProjectile, transform);
+        Projectile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, EnemyScript.shootingVelocity));
     }
 }

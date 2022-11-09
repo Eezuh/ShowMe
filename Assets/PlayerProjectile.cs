@@ -9,6 +9,7 @@ public class PlayerProjectile : MonoBehaviour
     {
         if (collision.gameObject.layer == 9)
         {
+            GetComponent<AudioSource>().Play();
             collision.gameObject.GetComponent<PuppetScript>().PuppetHealth -= damage;
         }
         Destroy(this.gameObject);
