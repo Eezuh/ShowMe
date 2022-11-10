@@ -58,7 +58,9 @@ public class CharacterScript : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         cursorVisible = false;
+        Cursor.visible = false;
         health = maxHealth;
         source = GetComponent<AudioSource>();
         InitializeItemPosition();

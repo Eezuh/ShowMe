@@ -38,6 +38,7 @@ public class RaftController : MonoBehaviour
     //SetFirstDestination is called to move the raft to the first Waypoint, after that it'll run on it's own
     void Start()
     {
+        outOfFuel = false;
         fuel = maxFuel;
         if (waypointNetwork == null) return;
         SetFirstDestination();
@@ -47,18 +48,12 @@ public class RaftController : MonoBehaviour
 
     private void Update()
     {
-        /*
-        if (fuel <= 0 && outOfFuel == false)
+        
+        if (fuel >= 0 && isStopped == true)
         {
-            fuel = 0;
-            StopRaftEngine();
-            outOfFuel = true;
+            StartRaftEngine();
         }
-        if (fuel >= 0 && outOfFuel == true)
-        {
-            StartRaftEngine()
-        }
-        */
+        
     }
 
     //Can call this from another script to add fuel based on fuel on the player
@@ -100,7 +95,9 @@ public class RaftController : MonoBehaviour
             fuel -= fuelRate;
             yield return new WaitForSeconds(drainCooldown);
         }
-        _agent.isStopped = true;
+
+        //_agent.isStopped = true;
+        StopRaftEngine();
     }
 
     //Call this function to move the raft to the start of the waypoint network
